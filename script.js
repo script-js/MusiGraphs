@@ -1,6 +1,7 @@
 var artistCounts = {}
 var genreCounts = {}
 var genreArtists = {}
+var artistSongs = {};
 var totalTracks = 0;
 
 var accessToken = localStorage.getItem("accessToken")
@@ -29,6 +30,15 @@ function getList(list) {
                     } else {
                         artistCounts[name]++
                     }
+                    if (!artistSongs[name]) {
+                        artistSongs[name] = []
+                    }
+                    artistSongs[name].push({
+                        url: k.track.external_urls.spotify,
+                        icon: k.track.album.images[0].url,
+                        title: k.track.name,
+                        artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
+                    })
                     var artistData = await (await fetch(artist.href, {
                         headers: {
                             Authorization: 'Bearer ' + accessToken
@@ -71,7 +81,6 @@ async function getPage(url, index) {
                 alert("Error getting playlist: " + data.error.message)
             }
         } else {
-            console.log(data)
             totalTracks += data.items.length
             data.tracks.items.forEach(function (k) {
                 k.track.artists.forEach(async function (artist) {
@@ -81,6 +90,15 @@ async function getPage(url, index) {
                     } else {
                         artistCounts[name]++
                     }
+                    if (!artistSongs[name]) {
+                        artistSongs[name] = []
+                    }
+                    artistSongs[name].push({
+                        url: k.track.external_urls.spotify,
+                        icon: k.track.album.images[0].url,
+                        title: k.track.name,
+                        artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
+                    })
                     var artistData = await (await fetch(artist.url, {
                         headers: {
                             Authorization: 'Bearer ' + accessToken
@@ -134,7 +152,6 @@ function createChart(group, title, container) {
         });
         google.visualization.events.addListener(chart, 'select', function() {
             var selectedItem = chart.getSelection()[0];
-            console.log(selectedItem)
             if (selectedItem) {
               var value = table.getValue(selectedItem.row, 0);
               alert('The user selected ' + value);
