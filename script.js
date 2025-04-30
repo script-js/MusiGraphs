@@ -132,10 +132,19 @@ function createChart(group, title, container) {
                 "color": "white"
             }
         });
+        google.visualization.events.addListener(chart, 'select', selectHandler);
     } else {
         alert("Google Charts failed to load.")
     }
 }
+
+function selectHandler() {
+    var selectedItem = chart.getSelection()[0];
+    if (selectedItem) {
+      var value = data.getValue(selectedItem.row, selectedItem.column);
+      alert('The user selected ' + value);
+    }
+  }
 
 function getTop5(group, title, container) {
     var sortedArray = Object.entries(group)
