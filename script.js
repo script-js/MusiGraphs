@@ -142,7 +142,7 @@ function getTop5(group, title, container) {
         .sort((a, b) => b[1] - a[1])
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
     var list = document.createElement("ol")
-    stats.innerHTML = "<h2><u>Top " + title + "</u></h2>"
+    //stats.innerHTML = "<h2><u>Top " + title + "</u></h2>"
     Object.keys(sortedArray).forEach(function (k, i) {
         if (i < 6) {
             var skill = document.createElement("li")
