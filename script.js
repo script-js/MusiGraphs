@@ -2,6 +2,8 @@ var artistCounts = {}
 var genreCounts = {}
 var totalTracks = 0;
 
+var accessToken = localStorage.getItem("accessToken")
+
 function getList(list) {
     return new Promise(async function (resolve) {
         var response = await fetch('https://api.spotify.com/v1/playlists/' + list, {
@@ -67,6 +69,7 @@ async function getPage(url, index) {
             totalTracks += data.items.length
             data.tracks.items.forEach(function (k) {
                 k.track.artists.forEach(async function (artist) {
+                    console.log(artist)
                     var name = artist.name
                     if (!artistCounts[name]) {
                         artistCounts[name] = 1
