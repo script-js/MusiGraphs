@@ -22,14 +22,13 @@ function getList(list) {
             totalTracks = data.tracks.items.length
             data.tracks.items.forEach(function (k) {
                 k.track.artists.forEach(async function (artist) {
-                    console.log(artist)
                     var name = artist.name
                     if (!artistCounts[name]) {
                         artistCounts[name] = 1
                     } else {
                         artistCounts[name]++
                     }
-                    var artistData = await (await fetch(artist.url, {
+                    var artistData = await (await fetch(artist.href, {
                         headers: {
                             Authorization: 'Bearer ' + accessToken
                         }
