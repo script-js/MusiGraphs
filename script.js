@@ -83,14 +83,15 @@ async function getPage(url, index) {
                     })).json();
                     artistData.genres.forEach(function (g) {
                         if (!genreCounts[g]) {
-                            genreCounts[g] = 1
+                            genreCounts[g] = 1;
                         } else {
-                            genreCounts[g]++
+                            genreCounts[g]++;
                         }
+                        console.log(!genreArtists[g],genreArtists[g])
                         if (!genreArtists[g]) {
-                            genreArtists[g] = [name]
-                        } else if (genreArtists[g].includes(name)) {
-                            genreArtists[g].push(name)
+                            genreArtists[g] = [name];
+                        } else if (!genreArtists[g].includes(name)) {
+                            genreArtists[g].push(name);
                         }
                     })
                 })
@@ -112,7 +113,7 @@ function createChart(group, title) {
     Object.keys(group).forEach(function (k) {
         dataset.push([k, group[k]])
     })
-    if (google) {
+    if (google.visualization) {
         var table = google.visualization.arrayToDataTable(dataset)
         var chart = new google.visualization.PieChart(document.getElementById("chart"));
         chart.draw(table, {title});
