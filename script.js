@@ -126,7 +126,7 @@ function createChart(group, title, container) {
             "chartArea": {
                 "backgoundColor": "red"
             },
-            "backgroundColor": "inherit",
+            "backgroundColor": "#232423",
             "fontName": "Roboto Slab"
         });
     } else {

@@ -3,3 +3,8 @@
 * {
     font-family: "Roboto Slab", serif;
 }
+
+body {
+    text-align: center;
+    background-color: #232423;
+}
