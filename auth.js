@@ -1,5 +1,5 @@
-const clientId = '75cbbb83721048b18a5cf0eb9e912ff7';
-const redirectUri = 'https://musiccompatibility.pages.dev/auth';
+const clientId = 'f81a93e6d41140a19d376efb5808b7ef';
+const redirectUri = 'https://musigraphs.pages.dev/auth';
 
 async function spotifyAuth() {
     const generateRandomString = (length) => {
