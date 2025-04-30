@@ -40,6 +40,11 @@ function getList(list) {
                         } else {
                             genreCounts[g]++
                         }
+                        if (!genreArtists[g]) {
+                            genreArtists[g] = [name];
+                        } else if (!genreArtists[g].includes(name)) {
+                            genreArtists[g].push(name);
+                        }
                     })
                 })
             });
@@ -87,7 +92,6 @@ async function getPage(url, index) {
                         } else {
                             genreCounts[g]++;
                         }
-                        console.log(!genreArtists[g],genreArtists[g])
                         if (!genreArtists[g]) {
                             genreArtists[g] = [name];
                         } else if (!genreArtists[g].includes(name)) {
