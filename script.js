@@ -115,7 +115,7 @@ function createChart(group, title) {
     if (google) {
         var table = google.visualization.arrayToDataTable(dataset)
         var chart = new google.visualization.PieChart(document.getElementById("chart"));
-        chart.draw(data, {title});
+        chart.draw(table, {title});
     } else {
         alert("Google Charts failed to load.")
     }
