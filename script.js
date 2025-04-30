@@ -22,6 +22,7 @@ function getList(list) {
             totalTracks = data.tracks.items.length
             data.tracks.items.forEach(function (k) {
                 k.track.artists.forEach(async function (artist) {
+                    console.log(artist)
                     var name = artist.name
                     if (!artistCounts[name]) {
                         artistCounts[name] = 1
@@ -69,7 +70,6 @@ async function getPage(url, index) {
             totalTracks += data.items.length
             data.tracks.items.forEach(function (k) {
                 k.track.artists.forEach(async function (artist) {
-                    console.log(artist)
                     var name = artist.name
                     if (!artistCounts[name]) {
                         artistCounts[name] = 1
