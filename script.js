@@ -136,7 +136,7 @@ function createChart(group, title, container) {
             var selectedItem = chart.getSelection()[0];
             console.log(selectedItem)
             if (selectedItem) {
-              var value = dataset[selectedItem.row][0];
+              var value = table.getValue(selectedItem.row, 0);
               alert('The user selected ' + value);
             }
         });
