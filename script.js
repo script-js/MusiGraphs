@@ -1,5 +1,6 @@
 var artistCounts = {}
 var genreCounts = {}
+var genreArtists = {}
 var totalTracks = 0;
 
 var accessToken = localStorage.getItem("accessToken")
@@ -85,6 +86,11 @@ async function getPage(url, index) {
                             genreCounts[g] = 1
                         } else {
                             genreCounts[g]++
+                        }
+                        if (!genreArtists[g]) {
+                            genreArtists[g] = [name]
+                        } else if (genreArtists[g].includes(name)) {
+                            genreArtists[g].push(name)
                         }
                     })
                 })
