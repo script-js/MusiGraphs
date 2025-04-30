@@ -132,19 +132,18 @@ function createChart(group, title, container) {
                 "color": "white"
             }
         });
-        google.visualization.events.addListener(chart, 'select', selectHandler);
+        google.visualization.events.addListener(chart, 'select', function() {
+            var selectedItem = chart.getSelection()[0];
+            console.log(selectedItem)
+            if (selectedItem) {
+              var value = dataset[selectedItem.row][0];
+              alert('The user selected ' + value);
+            }
+        });
     } else {
         alert("Google Charts failed to load.")
     }
 }
-
-function selectHandler() {
-    var selectedItem = chart.getSelection()[0];
-    if (selectedItem) {
-      var value = data.getValue(selectedItem.row, selectedItem.column);
-      alert('The user selected ' + value);
-    }
-  }
 
 function getTop5(group, title, container) {
     var sortedArray = Object.entries(group)
