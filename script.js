@@ -127,9 +127,28 @@ function createChart(group, title, container) {
                 "backgoundColor": "red"
             },
             "backgroundColor": "#232423",
-            "fontName": "Roboto Slab"
+            "fontName": "Roboto Slab",
+            "titleTextStyle": {
+                "color": "white"
+            }
         });
     } else {
         alert("Google Charts failed to load.")
     }
+}
+
+function getTop5(group, title, container) {
+    var sortedArray = Object.entries(group)
+        .sort((a, b) => b[1] - a[1])
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    var list = document.createElement("ol")
+    stats.innerHTML = "<h2><u>Top " + title + "</u></h2>"
+    Object.keys(sortedArray).forEach(function (k, i) {
+        if (i < 6) {
+            var skill = document.createElement("li")
+            skill.innerHTML = k;
+            list.appendChild(skill)
+        }
+    })
+    container.appendChild(list)
 }
