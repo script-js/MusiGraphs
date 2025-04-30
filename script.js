@@ -112,14 +112,14 @@ function getPercentage(name, group) {
     return ((group[name] / totalTracks) * 100) + "%"
 }
 
-function createChart(group, title) {
+function createChart(group, title, container) {
     var dataset = [["Artist", "Amount of Songs"]];
     Object.keys(group).forEach(function (k) {
         dataset.push([k, group[k]])
     })
     if (google.visualization) {
         var table = google.visualization.arrayToDataTable(dataset)
-        var chart = new google.visualization.PieChart(document.getElementById("chart"));
+        var chart = new google.visualization.PieChart(container);
         chart.draw(table, {title});
     } else {
         alert("Google Charts failed to load.")
