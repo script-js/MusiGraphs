@@ -120,7 +120,15 @@ function createChart(group, title, container) {
     if (google.visualization) {
         var table = google.visualization.arrayToDataTable(dataset)
         var chart = new google.visualization.PieChart(container);
-        chart.draw(table, {title});
+        chart.draw(table, {
+            title,
+            "legend": "none",
+            "chartArea": {
+                "backgoundColor": "red"
+            },
+            "backgroundColor": "inherit",
+            "fontName": "Roboto Slab"
+        });
     } else {
         alert("Google Charts failed to load.")
     }
