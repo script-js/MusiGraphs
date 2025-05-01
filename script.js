@@ -5,7 +5,39 @@ var artistSongs = {};
 
 var accessToken = localStorage.getItem("accessToken")
 
+async function getUserLists() {
+    myLists.innerHTML = "";
+    var response = await fetch('https://api.spotify.com/v1/me/playlists', {
+        headers: {
+            Authorization: 'Bearer ' + accessToken
+        }
+    });
+    var data = await response.json();
+    if (data.error) {
+        if (data.error.message == "The access token expired" || data.error.message == "Invalid access token") {
+            localStorage.removeItem("accessToken")
+            location.reload()
+        } else {
+            alert("Error getting library: " + data.error.message)
+        }
+    } else {
+        if (data.items.length > 0) {
+            data.items.forEach(function (p) {
+                var elem = document.createElement("div")
+                elem.classList = "playlist clickable library"
+                elem.onclick = function () { getList(p.id) }
+                elem.innerHTML = `<img class="icon" src="${p.images[0].url}" /><div style="text-align:start"><span class="title">${p.name}</span></div>`
+                myLists.appendChild(elem)
+            })
+        } else {
+            myLists.innerHTML = "No playlists"
+            addList()
+        }
+    }
+}
+
 async function getList(list) {
+    chooser.style.display = "none"
     progressC.style.display = "block"
     var response = await fetch('https://api.spotify.com/v1/playlists/' + list, {
         headers: {
@@ -14,7 +46,7 @@ async function getList(list) {
     });
     var data = await response.json();
     if (data.error) {
-        if (data.error.message == "The access token expired") {
+        if (data.error.message == "The access token expired" || data.error.message == "Invalid access token") {
             spotifyAuth()
         } else {
             alert("Error getting playlist: " + data.error.message)
@@ -94,7 +126,7 @@ function getPage(url) {
         });
         var data = await response.json();
         if (data.error) {
-            if (data.error.message == "The access token expired") {
+            if (data.error.message == "The access token expired" || data.error.message == "Invalid access token") {
                 spotifyAuth()
             } else {
                 alert("Error getting playlist: " + data.error.message)

@@ -96,3 +96,20 @@ body {
 #progressC {
     display: none;
 }
+
+@keyframes quickspin {
+    0% {
+        transform: rotate(0);
+    }
+    5% {
+        transform: rotate(360);
+    }
+    10% {
+        transform: rotate(0);
+    }
+}
+
+#progress {
+    animation: quickspin 2s ease infinite;
+    width: 20%;
+}
