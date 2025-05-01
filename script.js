@@ -151,7 +151,9 @@ function createChart(group, title, topcontainer) {
             "fontName": "Roboto Slab",
             "titleTextStyle": {
                 "color": "white"
-            }
+            },
+            height: "100%",
+            width: "100%"
         });
         google.visualization.events.addListener(chart, 'select', function () {
             var selectedItem = chart.getSelection()[0];
