@@ -2,12 +2,12 @@
 
 * {
     font-family: "Roboto Slab", serif;
+    color: white;
 }
 
 body {
     text-align: center;
     background-color: #232423;
-    color: white;
     height: 100%;
 }
 

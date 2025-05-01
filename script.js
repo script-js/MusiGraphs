@@ -157,6 +157,7 @@ function createChart(group, title, topcontainer) {
             var selectedItem = chart.getSelection()[0];
             if (selectedItem) {
                 var value = table.getValue(selectedItem.row, 0);
+                topcontainer.querySelector("#info").innerHTML = ""
                 if (group == artistCounts) {
                     artistSongs[value].forEach(function (s) {
                         var elem = document.createElement("a")
@@ -167,7 +168,7 @@ function createChart(group, title, topcontainer) {
                         topcontainer.querySelector("#info").appendChild(elem)
                     })
                 } else if (group == genreCounts) {
-                    artistSongs[value].forEach(function (s) {
+                    genreArtists[value].forEach(function (s) {
                         var elem = document.createElement("a")
                         elem.href = s.url
                         elem.target = "_blank"
@@ -187,6 +188,7 @@ function createChart(group, title, topcontainer) {
 }
 
 function getTop5(group, container) {
+    topcontainer.querySelector("#info").innerHTML = "";
     var sortedArray = Object.entries(group)
         .sort((a, b) => b[1] - a[1])
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
