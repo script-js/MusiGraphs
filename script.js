@@ -64,8 +64,8 @@ async function getList(list) {
         if (data.tracks.next) {
             await getPage(data.tracks.next)
         }
-        createChart(genreCounts, genres)
-        createChart(artistCounts, artists)
+        createChart(genreCounts, "Genres", genres)
+        createChart(artistCounts, "Artists", artists)
         dataSection.style.display = "block";
     }
 }
