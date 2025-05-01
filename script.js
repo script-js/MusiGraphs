@@ -152,8 +152,8 @@ function getPage(url) {
 
 function findGenres() {
     return new Promise(async (resolve) => {
-        if (artistids.length > 80) {
-            var url = "https://api.spotify.com/v1/artists?ids=" + artistids.splice(0,80)
+        if (artistids.length > 50) {
+            var url = "https://api.spotify.com/v1/artists?ids=" + artistids.splice(0,50)
             await findGenres()
         } else {
             var url = "https://api.spotify.com/v1/artists?ids=" + artistids
