@@ -166,12 +166,12 @@ function findGenres() {
                 } else {
                     genreCounts[g] += artistCounts[a]
                 }
-                if (!genreArtists[g]) {
-                    if (artistData.images.length > 0) {
+                if (artistData.images.length > 0) {
                         var img = artistData.images[0].url
                     } else {
                         var img = "favicon.ico"
-                    }
+                }
+                if (!genreArtists[g]) {
                     genreArtists[g] = [{
                         url: artistData.external_urls.spotify,
                         icon: img,
@@ -180,7 +180,7 @@ function findGenres() {
                 } else if (!genreArtists[g].map(x => x.title).includes(a)) {
                     genreArtists[g].push({
                         url: artistData.external_urls.spotify,
-                        icon: artistData.images[0].url,
+                        icon: img,
                         title: artistData.name
                     });
                 }
