@@ -8,4 +8,83 @@ body {
     text-align: center;
     background-color: #232423;
     color: white;
+    height: 100%;
+}
+
+#genres {
+    display: inline-block;
+    width: 45%;
+    height: 100%;
+    margin-right: 4%;
+}
+
+#artists {
+    display: inline-block;
+    width: 45%;
+    height: 100%;
+    margin-left: 4%;
+}
+
+@keyframes loadin {
+    0% {
+        opacity: 0;
+        transform: translate(0, 10%);
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#dataSection {
+    animation: loadin 1s ease-out;
+    display: none;
+}
+
+.song .icon {
+    height: 100%;
+    margin-right: 10px;
+    aspect-ratio: 1 / 1;
+}
+
+.song,
+.playlist {
+    height: 75px;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    animation: fadein 1.5s;
+    text-decoration: none;
+}
+
+.song {
+    transition: ease 100ms;
+}
+
+.song:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.playlist.clickable:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.playlist.clickable {
+    transition: ease 100ms;
+}
+
+.playlist.library {
+    border: 1px solid white;
+    padding-right: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.playlist {
+    width: fit-content;
+    display: inline-flex;
+    margin-right: 10px;
+    height: 50px;
 }
