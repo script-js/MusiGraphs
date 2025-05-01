@@ -167,10 +167,14 @@ function findGenres() {
                     genreCounts[g] += artistCounts[a]
                 }
                 if (!genreArtists[g]) {
-                    console.log(artistData)
+                    if (artistData.images.length > 0) {
+                        var img = artistData.images[0].url
+                    } else {
+                        var img = "favicon.ico"
+                    }
                     genreArtists[g] = [{
                         url: artistData.external_urls.spotify,
-                        icon: artistData.images[0].url,
+                        icon: img,
                         title: artistData.name
                     }];
                 } else if (!genreArtists[g].map(x => x.title).includes(a)) {
