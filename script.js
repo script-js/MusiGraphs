@@ -134,11 +134,11 @@ function getPage(url) {
                 alert("Error getting playlist: " + data.error.message)
             }
         } else {
-            progress.max = data.tracks.items.length;
+            progress.max = data.items.length;
             progress.value = 0;
-            progressText.innerText = "0/" + data.tracks.items.length;
-            for (var i = 0; i < data.tracks.items.length; i++) {
-                var k = data.tracks.items[i];
+            progressText.innerText = "0/" + data.items.length;
+            for (var i = 0; i < data.items.length; i++) {
+                var k = data.items[i];
                 for (var i2 = 0; i2 < k.track.artists.length; i2++) {
                     var artist = k.track.artists[i2];
                     var name = artist.name
