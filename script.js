@@ -139,6 +139,7 @@ function getPercentage(name, group) {
 }
 
 function createChart(group, title, topcontainer) {
+    console.log(topcontainer)
     var dataset = [["Artist", "Amount of Songs"]];
     Object.keys(group).forEach(function (k) {
         dataset.push([k, group[k]])
