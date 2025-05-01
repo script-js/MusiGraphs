@@ -92,3 +92,7 @@ body {
     margin-right: 10px;
     height: 50px;
 }
+
+#progressC {
+    display: none;
+}

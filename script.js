@@ -6,6 +6,7 @@ var artistSongs = {};
 var accessToken = localStorage.getItem("accessToken")
 
 async function getList(list) {
+    progressC.style.display = "block"
     var response = await fetch('https://api.spotify.com/v1/playlists/' + list, {
         headers: {
             Authorization: 'Bearer ' + accessToken
@@ -21,6 +22,7 @@ async function getList(list) {
     } else {
         progress.max = data.tracks.items.length;
         progress.value = 0;
+        progressText.innerText = "0/" + data.tracks.items.length;
         for (var i = 0; i < data.tracks.items.length; i++) {
             var k = data.tracks.items[i];
             for (var i2 = 0; i2 < k.track.artists.length; i2++) {
@@ -63,6 +65,7 @@ async function getList(list) {
                 })
             }
             progress.value++
+            progressText.innerText = progress.value + "/" + progress.max
         };
         if (data.tracks.next) {
             await getPage(data.tracks.next)
@@ -89,8 +92,13 @@ function getPage(url) {
                 alert("Error getting playlist: " + data.error.message)
             }
         } else {
-            data.tracks.items.forEach(function (k) {
-                k.track.artists.forEach(async function (artist) {
+            progress.max = data.tracks.items.length;
+            progress.value = 0;
+            progressText.innerText = "0/" + data.tracks.items.length;
+            for (var i = 0; i < data.tracks.items.length; i++) {
+                var k = data.tracks.items[i];
+                for (var i2 = 0; i2 < k.track.artists.length; i2++) {
+                    var artist = k.track.artists[i2];
                     var name = artist.name
                     if (!artistCounts[name]) {
                         artistCounts[name] = 1
@@ -106,16 +114,16 @@ function getPage(url) {
                         title: k.track.name,
                         artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
                     })
-                    var artistData = await (await fetch(artist.url, {
+                    var artistData = await (await fetch(artist.href, {
                         headers: {
                             Authorization: 'Bearer ' + accessToken
                         }
                     })).json();
                     artistData.genres.forEach(function (g) {
                         if (!genreCounts[g]) {
-                            genreCounts[g] = 1;
+                            genreCounts[g] = 1
                         } else {
-                            genreCounts[g]++;
+                            genreCounts[g]++
                         }
                         if (!genreArtists[g]) {
                             genreArtists[g] = [name];
@@ -127,8 +135,10 @@ function getPage(url) {
                             });
                         }
                     })
-                })
-            });
+                }
+                progress.value++
+                progressText.innerText = progress.value + "/" + progress.max
+            };
             if (data.next) {
                 await getPage(data.next)
             }
