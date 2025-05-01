@@ -18,6 +18,10 @@ body {
     margin-right: 4%;
 }
 
+#chart {
+    height: 45%;
+}
+
 #artists {
     display: inline-block;
     width: 45%;
@@ -37,7 +41,7 @@ body {
 }
 
 #dataSection {
-    animation: loadin 1s ease-out;
+    animation: loadin 0.7s ease-out;
     display: none;
 }
 

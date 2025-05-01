@@ -2,7 +2,6 @@ var artistCounts = {}
 var genreCounts = {}
 var genreArtists = {}
 var artistSongs = {};
-var totalTracks = 0;
 
 var accessToken = localStorage.getItem("accessToken")
 
@@ -20,9 +19,10 @@ async function getList(list) {
             alert("Error getting playlist: " + data.error.message)
         }
     } else {
-        totalTracks = data.tracks.items.length
-        data.tracks.items.forEach(function (k) {
-            k.track.artists.forEach(async function (artist) {
+        for (var i = 0; i < data.tracks.items.length; i++) {
+            var k = data.tracks.items[i];
+            for (var i2 = 0; i2 < k.track.artists.length; i2++) {
+                var artist = k.track.artists[i2];
                 var name = artist.name
                 if (!artistCounts[name]) {
                     artistCounts[name] = 1
@@ -59,8 +59,8 @@ async function getList(list) {
                         });
                     }
                 })
-            })
-        });
+            }
+        };
         if (data.tracks.next) {
             await getPage(data.tracks.next)
         }
@@ -85,7 +85,6 @@ function getPage(url) {
                 alert("Error getting playlist: " + data.error.message)
             }
         } else {
-            totalTracks += data.items.length
             data.tracks.items.forEach(function (k) {
                 k.track.artists.forEach(async function (artist) {
                     var name = artist.name
@@ -134,12 +133,7 @@ function getPage(url) {
     })
 }
 
-function getPercentage(name, group) {
-    return ((group[name] / totalTracks) * 100) + "%"
-}
-
 function createChart(group, title, topcontainer) {
-    console.log(topcontainer)
     var dataset = [["Artist", "Amount of Songs"]];
     Object.keys(group).forEach(function (k) {
         dataset.push([k, group[k]])
@@ -170,7 +164,7 @@ function createChart(group, title, topcontainer) {
                         elem.target = "_blank"
                         elem.classList = "song"
                         elem.innerHTML = `<img class="icon" src="${s.icon}" /><div style="text-align:start"><span class="title">${s.title}</span><br><span class="artists">${s.artists}</span></div>`
-                        samesongs.appendChild(elem)
+                        topcontainer.querySelector("#info").appendChild(elem)
                     })
                 } else if (group == genreCounts) {
                     artistSongs[value].forEach(function (s) {
@@ -179,7 +173,7 @@ function createChart(group, title, topcontainer) {
                         elem.target = "_blank"
                         elem.classList = "song"
                         elem.innerHTML = `<img class="icon" src="${s.icon}" /><div style="text-align:start"><span class="title">${s.title}</span></div>`
-                        samesongs.appendChild(elem)
+                        topcontainer.querySelector("#info").appendChild(elem)
                     })
                 }
             } else {
@@ -200,9 +194,9 @@ function getTop5(group, container) {
     container.innerHTML = "<h2><u>Top 5</u></h2>"
     Object.keys(sortedArray).forEach(function (k, i) {
         if (i < 6) {
-            var skill = document.createElement("li")
-            skill.innerHTML = k;
-            list.appendChild(skill)
+            var itm = document.createElement("li")
+            itm.innerHTML = k + " - " + sortedArray[k] + " songs";
+            list.appendChild(itm)
         }
     })
     container.appendChild(list)
