@@ -174,8 +174,8 @@ function createChart(group, title, topcontainer) {
             "titleTextStyle": {
                 "color": "white"
             },
-            height: "100%",
-            width: "100%"
+            height: (window.innerHeight / 2),
+            width: (window.innerWidth / 2) - 100
         });
         google.visualization.events.addListener(chart, 'select', function () {
             var selectedItem = chart.getSelection()[0];
