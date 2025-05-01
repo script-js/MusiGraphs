@@ -112,7 +112,11 @@ async function getList(list) {
             createChart(genreCounts, "Genres", genres)
             createChart(artistCounts, "Artists", artists)
         }
-        dataSection.style.display = "flex";
+        if (window.innerWidth < 600) {
+            dataSection.style.display = "block";
+        } else {
+            dataSection.style.display = "flex";
+        }
         progressC.style.display = "none";
     }
 }
@@ -201,10 +205,8 @@ function createChart(group, title, topcontainer) {
         var chart = new google.visualization.PieChart(topcontainer.querySelector("#chart"));
         if (window.innerWidth < 600) {
             var width = window.innerWidth;
-            var height = window.innerHeight;
         } else {
             var width = (window.innerWidth / 2) - 100
-            var height = (window.innerHeight / 2)
         }
         chart.draw(table, {
             title,
@@ -217,7 +219,7 @@ function createChart(group, title, topcontainer) {
             "titleTextStyle": {
                 "color": "white"
             },
-            height,
+            height: (window.innerHeight / 2),
             width
         });
         google.visualization.events.addListener(chart, 'select', function () {
