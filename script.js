@@ -217,7 +217,8 @@ function createChart(group, title, topcontainer) {
             "backgroundColor": "#232423",
             "fontName": "Roboto Slab",
             "titleTextStyle": {
-                "color": "white"
+                "color": "white",
+                "fontSize": "25px"
             },
             height: (window.innerHeight / 2),
             width
