@@ -54,8 +54,12 @@ async function getList(list) {
                         genreCounts[g]++
                     }
                     if (!genreArtists[g]) {
-                        genreArtists[g] = [name];
-                    } else if (!genreArtists[g].includes(name)) {
+                        genreArtists[g] = [{
+                            url: artistData.external_urls.spotify,
+                            icon: artistData.images[0].url,
+                            title: artistData.name
+                        }];
+                    } else if (!genreArtists[g].map(x => x.title).includes(name)) {
                         genreArtists[g].push({
                             url: artistData.external_urls.spotify,
                             icon: artistData.images[0].url,
@@ -126,8 +130,12 @@ function getPage(url) {
                             genreCounts[g]++
                         }
                         if (!genreArtists[g]) {
-                            genreArtists[g] = [name];
-                        } else if (!genreArtists[g].includes(name)) {
+                            genreArtists[g] = [{
+                                url: artistData.external_urls.spotify,
+                                icon: artistData.images[0].url,
+                                title: artistData.name
+                            }];
+                        } else if (!genreArtists[g].map(x => x.title).includes(name)) {
                             genreArtists[g].push({
                                 url: artistData.external_urls.spotify,
                                 icon: artistData.images[0].url,
