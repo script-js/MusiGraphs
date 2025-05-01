@@ -146,7 +146,7 @@ function createChart(group, title, topcontainer) {
     })
     if (google.visualization) {
         var table = google.visualization.arrayToDataTable(dataset)
-        var chart = new google.visualization.PieChart(topcontainer.getElementById("chart"));
+        var chart = new google.visualization.PieChart(topcontainer.querySelector("#chart"));
         chart.draw(table, {
             title,
             "legend": "none",
@@ -183,13 +183,13 @@ function createChart(group, title, topcontainer) {
                     })
                 }
             } else {
-                getTop5(group, topcontainer.getElementById("info"))
+                getTop5(group, topcontainer.querySelector("#info"))
             }
         });
     } else {
         alert("Google Charts failed to load.")
     }
-    getTop5(group, topcontainer.getElementById("info"))
+    getTop5(group, topcontainer.querySelector("#info"))
 }
 
 function getTop5(group, container) {
