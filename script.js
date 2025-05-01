@@ -2,6 +2,7 @@ var artistCounts = {}
 var genreCounts = {}
 var genreArtists = {}
 var artistSongs = {};
+var artistids = [];
 
 var accessToken = localStorage.getItem("accessToken")
 
@@ -74,31 +75,7 @@ async function getList(list) {
                     title: k.track.name,
                     artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
                 })
-                var artistData = await (await fetch(artist.href, {
-                    headers: {
-                        Authorization: 'Bearer ' + accessToken
-                    }
-                })).json();
-                artistData.genres.forEach(function (g) {
-                    if (!genreCounts[g]) {
-                        genreCounts[g] = 1
-                    } else {
-                        genreCounts[g]++
-                    }
-                    if (!genreArtists[g]) {
-                        genreArtists[g] = [{
-                            url: artistData.external_urls.spotify,
-                            icon: artistData.images[0].url,
-                            title: artistData.name
-                        }];
-                    } else if (!genreArtists[g].map(x => x.title).includes(name)) {
-                        genreArtists[g].push({
-                            url: artistData.external_urls.spotify,
-                            icon: artistData.images[0].url,
-                            title: artistData.name
-                        });
-                    }
-                })
+                artistids.push(artist.id)
             }
             progress.value++
             progressText.innerText = progress.value + "/" + progress.max
@@ -144,46 +121,22 @@ function getPage(url) {
                 if (k.track) {
                     for (var i2 = 0; i2 < k.track.artists.length; i2++) {
                         var artist = k.track.artists[i2];
-                        var name = artist.name
-                        if (!artistCounts[name]) {
-                            artistCounts[name] = 1
+                        var aname = artist.name
+                        if (!artistCounts[aname]) {
+                            artistCounts[aname] = 1
                         } else {
-                            artistCounts[name]++
+                            artistCounts[aname]++
                         }
-                        if (!artistSongs[name]) {
-                            artistSongs[name] = []
+                        if (!artistSongs[aname]) {
+                            artistSongs[aname] = []
                         }
-                        artistSongs[name].push({
+                        artistSongs[aname].push({
                             url: k.track.external_urls.spotify,
                             icon: k.track.album.images[0].url,
                             title: k.track.name,
                             artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
                         })
-                        var artistData = await (await fetch(artist.href, {
-                            headers: {
-                                Authorization: 'Bearer ' + accessToken
-                            }
-                        })).json();
-                        artistData.genres.forEach(function (g) {
-                            if (!genreCounts[g]) {
-                                genreCounts[g] = 1
-                            } else {
-                                genreCounts[g]++
-                            }
-                            if (!genreArtists[g]) {
-                                genreArtists[g] = [{
-                                    url: artistData.external_urls.spotify,
-                                    icon: artistData.images[0].url,
-                                    title: artistData.name
-                                }];
-                            } else if (!genreArtists[g].map(x => x.title).includes(name)) {
-                                genreArtists[g].push({
-                                    url: artistData.external_urls.spotify,
-                                    icon: artistData.images[0].url,
-                                    title: artistData.name
-                                });
-                            }
-                        })
+                        artistids.push(artist.id)
                     }
                 }
                 progress.value++
@@ -195,6 +148,45 @@ function getPage(url) {
             resolve()
         }
     })
+}
+
+function findGenres() {
+    return new Promise((resolve) => {
+        artistids.forEach(async function (a, i, arr) {
+            var artists = await (await fetch("https://api.spotify.com/v1/artists?ids=" + artistURLs[a], {
+                headers: {
+                    Authorization: 'Bearer ' + accessToken
+                }
+            })).json();
+            artists.forEach(function (artistData) {
+                var a = artistData.name
+                artistData.genres.forEach(function (g) {
+                    if (!genreCounts[g]) {
+                        genreCounts[g] = artistCounts[a]
+                    } else {
+                        genreCounts[g] += artistCounts[a]
+                    }
+                    if (!genreArtists[g]) {
+                        genreArtists[g] = [{
+                            url: artistData.external_urls.spotify,
+                            icon: artistData.images[0].url,
+                            title: artistData.name
+                        }];
+                    } else if (!genreArtists[g].map(x => x.title).includes(a)) {
+                        genreArtists[g].push({
+                            url: artistData.external_urls.spotify,
+                            icon: artistData.images[0].url,
+                            title: artistData.name
+                        });
+                    }
+                })
+            })
+            if (i == arr.length - 1) {
+                resolve()
+            }
+        })
+    }
+    )
 }
 
 function createChart(group, title, topcontainer) {
