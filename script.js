@@ -141,48 +141,50 @@ function getPage(url) {
             progressText.innerText = "0/" + data.items.length;
             for (var i = 0; i < data.items.length; i++) {
                 var k = data.items[i];
-                for (var i2 = 0; i2 < k.track.artists.length; i2++) {
-                    var artist = k.track.artists[i2];
-                    var name = artist.name
-                    if (!artistCounts[name]) {
-                        artistCounts[name] = 1
-                    } else {
-                        artistCounts[name]++
-                    }
-                    if (!artistSongs[name]) {
-                        artistSongs[name] = []
-                    }
-                    artistSongs[name].push({
-                        url: k.track.external_urls.spotify,
-                        icon: k.track.album.images[0].url,
-                        title: k.track.name,
-                        artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
-                    })
-                    var artistData = await (await fetch(artist.href, {
-                        headers: {
-                            Authorization: 'Bearer ' + accessToken
-                        }
-                    })).json();
-                    artistData.genres.forEach(function (g) {
-                        if (!genreCounts[g]) {
-                            genreCounts[g] = 1
+                if (k.track) {
+                    for (var i2 = 0; i2 < k.track.artists.length; i2++) {
+                        var artist = k.track.artists[i2];
+                        var name = artist.name
+                        if (!artistCounts[name]) {
+                            artistCounts[name] = 1
                         } else {
-                            genreCounts[g]++
+                            artistCounts[name]++
                         }
-                        if (!genreArtists[g]) {
-                            genreArtists[g] = [{
-                                url: artistData.external_urls.spotify,
-                                icon: artistData.images[0].url,
-                                title: artistData.name
-                            }];
-                        } else if (!genreArtists[g].map(x => x.title).includes(name)) {
-                            genreArtists[g].push({
-                                url: artistData.external_urls.spotify,
-                                icon: artistData.images[0].url,
-                                title: artistData.name
-                            });
+                        if (!artistSongs[name]) {
+                            artistSongs[name] = []
                         }
-                    })
+                        artistSongs[name].push({
+                            url: k.track.external_urls.spotify,
+                            icon: k.track.album.images[0].url,
+                            title: k.track.name,
+                            artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
+                        })
+                        var artistData = await (await fetch(artist.href, {
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken
+                            }
+                        })).json();
+                        artistData.genres.forEach(function (g) {
+                            if (!genreCounts[g]) {
+                                genreCounts[g] = 1
+                            } else {
+                                genreCounts[g]++
+                            }
+                            if (!genreArtists[g]) {
+                                genreArtists[g] = [{
+                                    url: artistData.external_urls.spotify,
+                                    icon: artistData.images[0].url,
+                                    title: artistData.name
+                                }];
+                            } else if (!genreArtists[g].map(x => x.title).includes(name)) {
+                                genreArtists[g].push({
+                                    url: artistData.external_urls.spotify,
+                                    icon: artistData.images[0].url,
+                                    title: artistData.name
+                                });
+                            }
+                        })
+                    }
                 }
                 progress.value++
                 progressText.innerText = progress.value + "/" + progress.max
