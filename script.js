@@ -188,7 +188,7 @@ function createChart(group, title, topcontainer) {
 }
 
 function getTop5(group, container) {
-    topcontainer.querySelector("#info").innerHTML = "";
+    container.innerHTML = "";
     var sortedArray = Object.entries(group)
         .sort((a, b) => b[1] - a[1])
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
