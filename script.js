@@ -75,7 +75,9 @@ async function getList(list) {
                     title: k.track.name,
                     artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
                 })
-                artistids.push(artist.id)
+                if (!artistids.includes(artist.id)) {
+                    artistids.push(artist.id)
+                }
             }
             progress.value++
             progressText.innerText = progress.value + "/" + progress.max
@@ -136,7 +138,9 @@ function getPage(url) {
                             title: k.track.name,
                             artists: k.track.artists.map((x) => x.name).toString().replaceAll(",", ", ")
                         })
-                        artistids.push(artist.id)
+                        if (!artistids.includes(artist.id)) {
+                            artistids.push(artist.id)
+                        }
                     }
                 }
                 progress.value++
@@ -153,7 +157,7 @@ function getPage(url) {
 function findGenres() {
     return new Promise(async (resolve) => {
         if (artistids.length > 50) {
-            var url = "https://api.spotify.com/v1/artists?ids=" + artistids.splice(0,50)
+            var url = "https://api.spotify.com/v1/artists?ids=" + artistids.splice(0, 50)
             await findGenres()
         } else {
             var url = "https://api.spotify.com/v1/artists?ids=" + artistids
