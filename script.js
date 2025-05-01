@@ -167,6 +167,7 @@ function findGenres() {
                     genreCounts[g] += artistCounts[a]
                 }
                 if (!genreArtists[g]) {
+                    console.log(artistData)
                     genreArtists[g] = [{
                         url: artistData.external_urls.spotify,
                         icon: artistData.images[0].url,
