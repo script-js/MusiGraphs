@@ -53,9 +53,6 @@ async function getList(list) {
             alert("Error getting playlist: " + data.error.message)
         }
     } else {
-        progress.max = data.tracks.items.length;
-        progress.value = 0;
-        progressText.innerText = "0/" + data.tracks.items.length;
         for (var i = 0; i < data.tracks.items.length; i++) {
             var k = data.tracks.items[i];
             for (var i2 = 0; i2 < k.track.artists.length; i2++) {
@@ -79,12 +76,11 @@ async function getList(list) {
                     artistids.push(artist.id)
                 }
             }
-            progress.value++
-            progressText.innerText = progress.value + "/" + progress.max
         };
         if (data.tracks.next) {
             await getPage(data.tracks.next)
         }
+        await findGenres()
         createChart(genreCounts, "Genres", genres)
         createChart(artistCounts, "Artists", artists)
         window.onresize = function () {
@@ -115,9 +111,6 @@ function getPage(url) {
                 alert("Error getting playlist: " + data.error.message)
             }
         } else {
-            progress.max = data.items.length;
-            progress.value = 0;
-            progressText.innerText = "0/" + data.items.length;
             for (var i = 0; i < data.items.length; i++) {
                 var k = data.items[i];
                 if (k.track) {
@@ -143,8 +136,6 @@ function getPage(url) {
                         }
                     }
                 }
-                progress.value++
-                progressText.innerText = progress.value + "/" + progress.max
             };
             if (data.next) {
                 await getPage(data.next)
