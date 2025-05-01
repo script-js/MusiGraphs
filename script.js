@@ -5,8 +5,6 @@ var artistSongs = {};
 
 var accessToken = localStorage.getItem("accessToken")
 
-if (accessToken) {}
-
 async function getUserLists() {
     myLists.innerHTML = "";
     var response = await fetch('https://api.spotify.com/v1/me/playlists', {
@@ -201,6 +199,13 @@ function createChart(group, title, topcontainer) {
     if (google.visualization) {
         var table = google.visualization.arrayToDataTable(dataset)
         var chart = new google.visualization.PieChart(topcontainer.querySelector("#chart"));
+        if (window.innerWidth < 600) {
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+        } else {
+            var width = (window.innerWidth / 2) - 100
+            var height = (window.innerHeight / 2)
+        }
         chart.draw(table, {
             title,
             "legend": "none",
@@ -212,8 +217,8 @@ function createChart(group, title, topcontainer) {
             "titleTextStyle": {
                 "color": "white"
             },
-            height: (window.innerHeight / 2),
-            width: (window.innerWidth / 2) - 100
+            height,
+            width
         });
         google.visualization.events.addListener(chart, 'select', function () {
             var selectedItem = chart.getSelection()[0];

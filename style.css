@@ -18,8 +18,8 @@ body {
     margin-right: 4%;
 }
 
-#chart {
-    height: 45%;
+@media only screen and (max-width: 500px) {
+    #genres,#artists {width: 100% !important;}
 }
 
 #artists {
