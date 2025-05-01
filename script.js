@@ -157,7 +157,7 @@ function findGenres() {
                     Authorization: 'Bearer ' + accessToken
                 }
             })).json();
-            artists.forEach(function (artistData) {
+            artists.artists.forEach(function (artistData) {
                 var a = artistData.name
                 artistData.genres.forEach(function (g) {
                     if (!genreCounts[g]) {
