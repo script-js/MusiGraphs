@@ -76,6 +76,10 @@ async function getList(list) {
         }
         createChart(genreCounts, "Genres", genres)
         createChart(artistCounts, "Artists", artists)
+        window.onresize = function () {
+            createChart(genreCounts, "Genres", genres)
+            createChart(artistCounts, "Artists", artists)
+        }
         dataSection.style.display = "block";
         progressC.style.display = "none";
     }
