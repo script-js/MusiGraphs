@@ -51,6 +51,12 @@ body {
     aspect-ratio: 1 / 1;
 }
 
+.playlist .icon {
+    height: 100%;
+    margin-right: 10px;
+    aspect-ratio: 1 / 1;
+}
+
 .song,
 .playlist {
     height: 75px;
@@ -112,4 +118,18 @@ body {
 #progress {
     animation: quickspin 2s ease infinite;
     width: 20%;
+}
+
+input {
+    display: block;
+    margin: auto;
+}
+
+input,
+button {
+    background-color: #141414;
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
