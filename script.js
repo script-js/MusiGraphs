@@ -151,9 +151,8 @@ function getPage(url) {
 }
 
 function findGenres() {
-    return new Promise((resolve) => {
-        artistids.forEach(async function (a, i, arr) {
-            var artists = await (await fetch("https://api.spotify.com/v1/artists?ids=" + artistURLs[a], {
+    return new Promise(async (resolve) => {
+            var artists = await (await fetch("https://api.spotify.com/v1/artists?ids=" + artistids, {
                 headers: {
                     Authorization: 'Bearer ' + accessToken
                 }
@@ -184,7 +183,6 @@ function findGenres() {
             if (i == arr.length - 1) {
                 resolve()
             }
-        })
     }
     )
 }
