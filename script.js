@@ -152,37 +152,38 @@ function getPage(url) {
 
 function findGenres() {
     return new Promise(async (resolve) => {
-            var artists = await (await fetch("https://api.spotify.com/v1/artists?ids=" + artistids, {
-                headers: {
-                    Authorization: 'Bearer ' + accessToken
+        var artists = await (await fetch("https://api.spotify.com/v1/artists?ids=" + artistids, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        })).json();
+        artists.artists.forEach(function (artistData, i, arr) {
+            var a = artistData.name
+            artistData.genres.forEach(function (g) {
+                if (!genreCounts[g]) {
+                    genreCounts[g] = artistCounts[a]
+                } else {
+                    genreCounts[g] += artistCounts[a]
                 }
-            })).json();
-            artists.artists.forEach(function (artistData) {
-                var a = artistData.name
-                artistData.genres.forEach(function (g) {
-                    if (!genreCounts[g]) {
-                        genreCounts[g] = artistCounts[a]
-                    } else {
-                        genreCounts[g] += artistCounts[a]
-                    }
-                    if (!genreArtists[g]) {
-                        genreArtists[g] = [{
-                            url: artistData.external_urls.spotify,
-                            icon: artistData.images[0].url,
-                            title: artistData.name
-                        }];
-                    } else if (!genreArtists[g].map(x => x.title).includes(a)) {
-                        genreArtists[g].push({
-                            url: artistData.external_urls.spotify,
-                            icon: artistData.images[0].url,
-                            title: artistData.name
-                        });
-                    }
-                })
+                if (!genreArtists[g]) {
+                    genreArtists[g] = [{
+                        url: artistData.external_urls.spotify,
+                        icon: artistData.images[0].url,
+                        title: artistData.name
+                    }];
+                } else if (!genreArtists[g].map(x => x.title).includes(a)) {
+                    genreArtists[g].push({
+                        url: artistData.external_urls.spotify,
+                        icon: artistData.images[0].url,
+                        title: artistData.name
+                    });
+                }
             })
+
             if (i == arr.length - 1) {
                 resolve()
             }
+        })
     }
     )
 }
