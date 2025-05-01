@@ -80,7 +80,7 @@ async function getList(list) {
             createChart(genreCounts, "Genres", genres)
             createChart(artistCounts, "Artists", artists)
         }
-        dataSection.style.display = "block";
+        dataSection.style.display = "flex";
         progressC.style.display = "none";
     }
 }
