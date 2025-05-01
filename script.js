@@ -19,6 +19,8 @@ async function getList(list) {
             alert("Error getting playlist: " + data.error.message)
         }
     } else {
+        progress.max = data.tracks.items.length;
+        progress.value = 0;
         for (var i = 0; i < data.tracks.items.length; i++) {
             var k = data.tracks.items[i];
             for (var i2 = 0; i2 < k.track.artists.length; i2++) {
@@ -60,6 +62,7 @@ async function getList(list) {
                     }
                 })
             }
+            progress.value++
         };
         if (data.tracks.next) {
             await getPage(data.tracks.next)
@@ -67,6 +70,7 @@ async function getList(list) {
         createChart(genreCounts, "Genres", genres)
         createChart(artistCounts, "Artists", artists)
         dataSection.style.display = "block";
+        progressC.style.display = "none";
     }
 }
 
